@@ -778,7 +778,6 @@ xhrHandler = (url) => {
   // 每一次「页面加载」都真给一个全新的全局环境，只有 localStorage / sessionStorage 跨加载共用，
   // 这才是刷新页面时真正保留下来的东西。
   const src221 = fs.readFileSync(SCRIPT, "utf8");
-  const src220 = fs.readFileSync("C:/Users/MEC/Documents/Codex/2026-09-29/w/outputs/auto-read-2.2.0.user.js", "utf8");
   // 一个够用的 BroadcastChannel 替身。真实的 BroadcastChannel 是异步送达的；这里改成同步送达，
   // 因为本测试把脚本里的定时器压缩了 2 万倍，异步送达会赶不上探测窗口，反而测不准。
   // 探测本身的逻辑（谁应声、换不换号）与送达快慢无关。
@@ -818,24 +817,16 @@ xhrHandler = (url) => {
     };
     ctx2.globalThis = ctx2;
     vm.createContext(ctx2);
-    vm.runInContext(src221, ctx2, { filename: "auto-read-2.3.1.user.js" });
+    vm.runInContext(src221, ctx2, { filename: "auto-read.user.js" });
     return { win, internals: win.AutoReadInternals };
   }
   const settle = () => new Promise((res) => setTimeout(res, 120));
 
-  // --- 16a. 先用 2.2.0 的老办法把 bug 复现出来 ---
-  const BUG_TAB = "bugtab01";
-  sessionStore.autoReadTabId = BUG_TAB;
-  let bugTabs = JSON.parse(store.autoReadTabs || "{}");
-  bugTabs[BUG_TAB] = { on: true, like: true, at: clock.t };
-  store.autoReadTabs = JSON.stringify(bugTabs);
-  clock.t += 300;   // 心跳刚刚写过记录，很新
-  vm.runInContext(src220, ctx, { filename: "auto-read-2.2.0.user.js" });
-  const buggy = windowStub.AutoReadInternals;
-  check("2.2.0 的老办法确实会丢状态（bug 复现）", buggy.tabState().on === false, JSON.stringify(buggy.tabState()));
-  check("2.2.0 的老办法会悄悄换成另一个标签页号", buggy.tabId !== BUG_TAB, buggy.tabId + " vs " + BUG_TAB);
-
-  // --- 16b. 2.2.1：同一个标签页刷新，状态接着跑 ---
+  // 2.2.0 判断「这个标签页号是不是被别人占着」靠的是「记录是不是刚写过」，而正在跑的页面
+  // 心跳每 5 秒就写一次，于是刷新时有大约一半几率被误判成「复制出来的标签页」而换号，
+  // 新号没有记录，状态就退回「已停止」。这条老 bug 记在脚本头部的更新说明里，
+  // 这里只验证现在的行为，不再引入旧版脚本复现。
+  // --- 16a. 2.2.1：同一个标签页刷新，状态接着跑 ---
   const TABX = "tabx0001";
   sessionStore.autoReadTabId = TABX;
   let xTabs = JSON.parse(store.autoReadTabs || "{}");
