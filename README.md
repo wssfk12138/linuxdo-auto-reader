@@ -24,7 +24,9 @@ linux.do（以及其它 Discourse 论坛）的自动阅读用户脚本：按设�
 ## 安装
 
 1. 先给浏览器装一个用户脚本管理器：[Tampermonkey](https://www.tampermonkey.net/)。Edge、Chrome、Firefox 都可以。
-2. 安装脚本，两种方式任选：
+2. 安装脚本，三种方式任选：
+   - **从 Greasy Fork 安装（推荐）**：https://greasyfork.org/zh-CN/scripts/600338-linuxdo-auto-read
+     走这条以后会自动更新，发新版本不用手动重装。
    - 到 [Releases](https://github.com/wssfk12138/linuxdo-auto-reader/releases) 页面下载最新版的 `auto-read.user.js`，拖进浏览器或直接打开。
    - 或者从 main 分支直接安装：https://raw.githubusercontent.com/wssfk12138/linuxdo-auto-reader/main/dist/auto-read.user.js
    Tampermonkey 会弹出安装页，点「安装」。
