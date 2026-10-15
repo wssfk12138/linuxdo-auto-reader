@@ -1,0 +1,18 @@
+{
+  "name": "linuxdo-auto-reader",
+  "version": "2.3.5",
+  "private": true,
+  "description": "linux.do（Discourse）自动阅读用户脚本：按节奏自动翻帖、每贴限时、多标签页独立启停、可选自动点赞。",
+  "license": "MIT",
+  "author": "liuweiqing",
+  "scripts": {
+    "build": "node tools/build.js",
+    "pretest": "node tools/build.js",
+    "test": "node tests/auto-read.test.js",
+    "verify": "npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+

@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout``
+        with:
+          fetch-depth: 0
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 校验 tag 与脚本版本一致
+        run: |
+          set -e
+          tag="${GITHUB_REF_NAME}"
+          ver="$(node -p "require('./package.json').version")"
+          echo "tag=$tag package=$ver"
+          if [ "$tag" != "v$ver" ]; then
+            echo "tag 和脚本里的版本号不一致，先改 src/auto-read.user.js 的 @version 和 package.json 的 version" >&2
+            exit 1
+          fi
+
+      - name: 构建并跑测试
+        run: |
+          npm run build
+          npm test
+
+      - name: 创建或更新 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/auto-read.user.js
+          body: |
+            用户脚本附件：`auto-read.user.js`
+
+            安装方式：装好 Tampermonkey 之后打开这个附件，点「安装」。
+            也可以直接从 main 分支安装：
+            https://raw.githubusercontent.com/wssfk12138/linuxdo-auto-reader/main/dist/auto-read.user.js
+
+            更新内容见仓库的 CHANGELOG.md。
+
