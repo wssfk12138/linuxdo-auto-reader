@@ -30,6 +30,8 @@ linux.do（以及其它 Discourse 论坛）的自动阅读用户脚本：按设�
    Tampermonkey 会弹出安装页，点「安装」。
 3. 打开 linux.do，左下角会出现悬浮卡片，点「开始阅读」。
 
+> 如果你之前装过叫「Auto Read」的旧版脚本，请先在用户脚本管理器里把它删掉再装这一版：改名之后它是另一个脚本，两个同时开着会在同一个页面上重复跑。
+
 脚本生效的站点：linux.do、meta.discourse.org、meta.appinn.net、community.openai.com、idcflare.com。
 
 ## 使用

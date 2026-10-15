@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Auto Read
-// @namespace    http://tampermonkey.net/
-// @version      2.3.5
+// @name         LinuxDo Auto Read
+// @namespace    https://github.com/wssfk12138/linuxdo-auto-reader
+// @version      2.3.6
 // @description  自动阅读 linux.do 帖子（完整阅读 · 自定义阅读速度 · 每贴 15~30 秒 · 多标签页独立启停 · 低速限流 · 防卡死 · 帖/楼层计数 · 自动点赞）
 // @author       liuweiqing
 // @match        https://meta.discourse.org/*
